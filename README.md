@@ -109,6 +109,14 @@ You should now be able to use Labtainers on your MacBook Pro M3, even though it'
 [![Labtainer on ARM: Setting Up on MacBook Pro M3 with UTM Virtual Machine
 ](https://img.youtube.com/vi/ckBRtSlhcww/0.jpg)](https://youtu.be/ckBRtSlhcww)
 
+### Demo Video
+
+Here’s a demonstration of running the Labtainer DMZ-Lab on a 14-inch MacBook Pro with UTM emulation. This setup is particularly demanding, as it involves 10 Docker containers that simulate a complex network environment with a DMZ (Demilitarized Zone).
+
+In this video, I run it on a MacBook Pro with a 12-core CPU and 36GB of RAM, configured with UTM to use 8GB of RAM and 6 cores (with multithreading enabled) for the virtual machine. Despite the intensive workload, the setup performs smoothly and handles the Labtainer lab requirements very well. Check out the video to see how the MacBook Pro manages this complex emulation environment!
+
+[![Labtainer DMZ-Lab on MacBook Pro with UTM Emulation](https://img.youtube.com/vi/Dh6Hlbu53O0/0.jpg)](https://www.youtube.com/watch?v=Dh6Hlbu53O0)
+
 
 ## Additional Notes
 
