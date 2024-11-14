@@ -1,7 +1,7 @@
 
 # Running Labtainer on MacBook Pro M3 using UTM
 
-This guide explains how I successfully set up and ran **Labtainer**, a Linux-based cybersecurity lab environment, on my MacBook Pro M3 using **UTM**. Labtainer is typically not available for ARM, so this setup involves emulating an x86 environment.
+This guide explains how to set up and run **Labtainer**, a Linux-based cybersecurity lab environment, on a MacBook Pro M3 using **UTM**. Labtainer is typically not available for ARM, so this setup involves emulating an x86 environment. Thanks to this guide, NPS has officially provided a QCOW2 image, allowing users to skip several setup steps.
 
 ---
 
@@ -9,15 +9,20 @@ This guide explains how I successfully set up and ran **Labtainer**, a Linux-bas
 1. [Overview of Tools and File Formats](#overview-of-tools-and-file-formats)
    - [What is an OVA file?](#what-is-an-ova-file)
    - [What is QCOW2?](#what-is-qcow2)
-2. [Preparing the Labtainer Image](#preparing-the-Labtainer-image)
+2. [Using the Official QCOW2 Image](#using-the-official-qcow2-image)
+   - [Step 1: Download the QCOW2 Image](#step-1-download-the-qcow2-image)
+   - [Step 2: Unzip and Configure in UTM](#step-2-unzip-and-configure-in-utm)
+3. [Preparing the Labtainer Image Manually](#preparing-the-labtainer-image-manually)
    - [Step 1: Download UTM](#step-1-download-utm)
    - [Step 2: Download Labtainer OVA File](#step-2-download-labtainer-ova-file)
    - [Step 3: Install QEMU via Homebrew](#step-3-install-qemu-via-homebrew)
    - [Step 4: Convert OVA to QCOW2 Format](#step-4-convert-ova-to-qcow2-format)
-3. [Setting Up the Virtual Machine in UTM](#setting-up-the-virtual-machine-in-utm)
+4. [Setting Up the Virtual Machine in UTM](#setting-up-the-virtual-machine-in-utm)
    - [Step 5: Create a New Virtual Machine in UTM](#step-5-create-a-new-virtual-machine-in-utm)
    - [Step 6: Configure the VM Settings](#step-6-configure-the-vm-settings)
    - [Step 7: Boot and Test the VM](#step-7-boot-and-test-the-vm)
+5. [Demo Video](#demo-video)
+6. [Additional Notes](#additional-notes)
 
 ---
 
@@ -27,11 +32,29 @@ This guide explains how I successfully set up and ran **Labtainer**, a Linux-bas
 An **OVA** (Open Virtualization Archive) file is a standardized file format that packages all components of a virtual machine into a single file, making it easy to share and distribute VMs. OVA files can contain the VM disk image (usually in VMDK format), configuration files, and metadata.
 
 ### What is QCOW2?
-**QCOW2** (QEMU Copy-On-Write version 2) is a disk image format used by QEMU. It supports advanced features such as snapshots, compression, and encryption. QCOW2 is ideal for use in virtualized environments like UTM.
+**QCOW2** (QEMU Copy-On-Write version 2) is a disk image format used by QEMU. It supports advanced features such as snapshots, compression, and encryption, ideal for use in virtualized environments like UTM.
 
 ---
 
-## Preparing the Labtainer Image
+## Using the Official QCOW2 Image
+
+### Step 1: Download the QCOW2 Image
+NPS now provides an official QCOW2 image for Labtainer based on the original instructions in this guide. This image is pre-configured for use with UTM, allowing you to skip steps 2, 3, and 4 of the manual setup.
+
+- [Official QCOW2 Image for Labtainer on Mac](https://nps.edu/web/c3o/virtual-machine-images)
+
+### Step 2: Unzip and Configure in UTM
+After downloading the QCOW2 image:
+1. **Unzip the file**.
+2. **Open UTM**, select **Import Drive** during VM setup, and choose the unzipped QCOW2 file.
+
+For additional help with this setup, watch this [YouTube tutorial](https://youtu.be/ckBRtSlhcww) on importing QCOW2 images into UTM.
+
+---
+
+## Preparing the Labtainer Image Manually
+
+If you prefer a manual setup or for learning purposes, you can prepare the image yourself by following these steps.
 
 ### Step 1: Download UTM
 UTM is a virtual machine manager for macOS that supports running VMs on both x86_64 and ARM-based Macs. Download the latest version of UTM for macOS from GitHub:
@@ -60,7 +83,7 @@ The OVA file is essentially a compressed archive. To extract it, use the followi
 ```bash
 tar -xvf LabtainerVM24a-VMWare.ova
 ```
-![Alt Text](images/unpacke-ova.png)
+![Extracting OVA file](images/unpacke-ova.png)
 
 After extracting, you should see several files, including a `.vmdk` file (the virtual disk for VMware). We will convert this `.vmdk` file to the QCOW2 format:
 
@@ -104,22 +127,13 @@ For my setup on a MacBook Pro M3 with 36 GB of RAM, I used the following configu
 
 ---
 
-You should now be able to use Labtainers on your MacBook Pro M3, even though it's designed for x86 and doesn't natively support ARM. This setup allows you to emulate an x86 environment and run Labtainers smoothly.
+## Demo Video
 
-[![Labtainer on ARM: Setting Up on MacBook Pro M3 with UTM Virtual Machine
-](https://img.youtube.com/vi/ckBRtSlhcww/0.jpg)](https://youtu.be/ckBRtSlhcww)
+For a complete walkthrough on setting up Labtainer with UTM, check out this [YouTube video](https://www.youtube.com/watch?v=Dh6Hlbu53O0), which demonstrates running Labtainer on a MacBook Pro M3.
 
-### Demo Video
-
-Here’s a demonstration of running the Labtainer DMZ-Lab on a 14-inch MacBook Pro with UTM emulation. This setup is particularly demanding, as it involves 10 Docker containers that simulate a complex network environment with a DMZ (Demilitarized Zone).
-
-In this video, I run it on a MacBook Pro with a 12-core CPU and 36GB of RAM, configured with UTM to use 8GB of RAM and 6 cores (with multithreading enabled) for the virtual machine. Despite the intensive workload, the setup performs smoothly and handles the Labtainer lab requirements very well. Check out the video to see how the MacBook Pro manages this complex emulation environment!
-
-[![Labtainer DMZ-Lab on MacBook Pro with UTM Emulation](https://img.youtube.com/vi/Dh6Hlbu53O0/0.jpg)](https://www.youtube.com/watch?v=Dh6Hlbu53O0)
-
+---
 
 ## Additional Notes
 
 - **Performance**: Running x86 emulation on ARM can be demanding on system resources. You may need to experiment with CPU and memory allocations for optimal performance.
 - **Troubleshooting**: If you encounter issues, check the UTM and QEMU documentation, or consult online forums for specific configuration tips.
-
