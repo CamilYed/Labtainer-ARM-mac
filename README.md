@@ -1,4 +1,3 @@
-
 # Running Labtainer on MacBook Pro M3 using UTM
 
 This guide explains how to set up and run **Labtainer**, a Linux-based cybersecurity lab environment, on a MacBook Pro M3 using **UTM**. Labtainer is typically not available for ARM, so this setup involves emulating an x86 environment. Thanks to this guide, NPS has officially provided a QCOW2 image, allowing users to skip several setup steps.
@@ -7,20 +6,20 @@ This guide explains how to set up and run **Labtainer**, a Linux-based cybersecu
 
 ## Table of Contents
 1. [Overview of Tools and File Formats](#overview-of-tools-and-file-formats)
-   - [What is an OVA file?](#what-is-an-ova-file)
-   - [What is QCOW2?](#what-is-qcow2)
+    - [What is an OVA file?](#what-is-an-ova-file)
+    - [What is QCOW2?](#what-is-qcow2)
 2. [Using the Official QCOW2 Image](#using-the-official-qcow2-image)
-   - [Step 1: Download the QCOW2 Image](#step-1-download-the-qcow2-image)
-   - [Step 2: Unzip and Configure in UTM](#step-2-unzip-and-configure-in-utm)
+    - [Step 1: Download the QCOW2 Image](#step-1-download-the-qcow2-image)
+    - [Step 2: Set Up the VM in UTM](#step-2-set-up-the-vm-in-utm)
 3. [Preparing the Labtainer Image Manually](#preparing-the-labtainer-image-manually)
-   - [Step 1: Download UTM](#step-1-download-utm)
-   - [Step 2: Download Labtainer OVA File](#step-2-download-labtainer-ova-file)
-   - [Step 3: Install QEMU via Homebrew](#step-3-install-qemu-via-homebrew)
-   - [Step 4: Convert OVA to QCOW2 Format](#step-4-convert-ova-to-qcow2-format)
+    - [Step 1: Download UTM](#step-1-download-utm)
+    - [Step 2: Download Labtainer OVA File](#step-2-download-labtainer-ova-file)
+    - [Step 3: Install QEMU via Homebrew](#step-3-install-qemu-via-homebrew)
+    - [Step 4: Convert OVA to QCOW2 Format](#step-4-convert-ova-to-qcow2-format)
 4. [Setting Up the Virtual Machine in UTM](#setting-up-the-virtual-machine-in-utm)
-   - [Step 5: Create a New Virtual Machine in UTM](#step-5-create-a-new-virtual-machine-in-utm)
-   - [Step 6: Configure the VM Settings](#step-6-configure-the-vm-settings)
-   - [Step 7: Boot and Test the VM](#step-7-boot-and-test-the-vm)
+    - [Step 5: Create a New Virtual Machine in UTM](#step-5-create-a-new-virtual-machine-in-utm)
+    - [Step 6: Configure the VM Settings](#step-6-configure-the-vm-settings)
+    - [Step 7: Boot and Test the VM](#step-7-boot-and-test-the-vm)
 5. [Demo Video](#demo-video)
 6. [Additional Notes](#additional-notes)
 
@@ -43,12 +42,22 @@ NPS now provides an official QCOW2 image for Labtainer based on the original ins
 
 - [Official QCOW2 Image for Labtainer on Mac](https://nps.edu/web/c3o/virtual-machine-images)
 
-### Step 2: Unzip and Configure in UTM
+### Step 2: Set Up the VM in UTM
 After downloading the QCOW2 image:
-1. **Unzip the file**.
-2. **Open UTM**, select **Import Drive** during VM setup, and choose the unzipped QCOW2 file.
 
-For additional help with this setup, watch this [YouTube tutorial](https://youtu.be/ckBRtSlhcww) on importing QCOW2 images into UTM.
+1. **Unzip the file**.
+2. **Download and install UTM**, if you haven’t already:
+    - [UTM Download Link](https://github.com/utmapp/UTM/releases/latest/download/UTM.dmg)
+    - Install UTM by opening the `.dmg` file and dragging it to your Applications folder.
+3. Open **UTM** and create a new virtual machine:
+    - Click the **+** button in UTM and select **Virtualize** to create a virtual machine.
+    - Follow the wizard steps:
+        - **System Settings**: Select the architecture and assign sufficient memory (e.g., 4GB or more).
+        - Complete the wizard to create the VM. Do not worry about the disk settings during this step.
+    - After the VM is created, open its configuration settings:
+        - Add a new drive and select the **QCOW2** file as the drive source.
+    - Configure networking as needed (e.g., shared or bridged).
+4. **Save and start the VM**. Refer to the [YouTube tutorial](https://youtu.be/ckBRtSlhcww) if you need guidance.
 
 ---
 
@@ -106,18 +115,20 @@ This command creates a file called `labtainer-utm-vm.qcow2`, which is compatible
 For my setup on a MacBook Pro M3 with 36 GB of RAM, I used the following configuration:
 
 1. **System**:
-   - **Architecture**: Set to **x86_64** (even though your Mac is ARM, UTM can emulate x86).
-   - **CPU Cores**: Set to **4 cores**.
-   - **Multithreading**: Enabled (recommended to improve performance).
-   - **Boot Options**: Disable **UEFI Boot** (uncheck this option).
+    - **Architecture**: Set to **x86_64** (even though your Mac is ARM, UTM can emulate x86).
+    - **CPU Cores**: Set to **4 cores**.
+    - **Multithreading**: Enabled (recommended to improve performance).
+    - **Boot Options**: Disable **UEFI Boot** (uncheck this option).
 
 2. **Memory**: Allocate **8 GB of RAM** for the virtual machine. If you have less RAM, you may need to adjust this, but 8 GB is recommended for stable performance in Labtainers.
 
-3. **Drive**: Select **Import Drive** and choose the `labtainer-utm-vm.qcow2` file you converted earlier.
+3. **Drive**: After creating the VM:
+    - Open the VM’s configuration settings.
+    - Add a new drive, select **Browse**, and attach the `labtainer-utm-vm.qcow2` file.
 
 4. **Display**:
-   - **Graphics Card**: Select **virtio-gpu-gl-pci (GPU Supported)** to enable better graphical performance.
-   - **SPICE**: Ensure **SPICE** is selected if you need enhanced display options, such as clipboard sharing.
+    - **Graphics Card**: Select **virtio-gpu-gl-pci (GPU Supported)** to enable better graphical performance.
+    - **SPICE**: Ensure **SPICE** is selected if you need enhanced display options, such as clipboard sharing.
 
 ### Step 7: Boot and Test the VM
 1. Start the VM in UTM.
@@ -127,13 +138,3 @@ For my setup on a MacBook Pro M3 with 36 GB of RAM, I used the following configu
 
 ---
 
-## Demo Video
-
-For a complete walkthrough on setting up Labtainer with UTM, check out this [YouTube video](https://www.youtube.com/watch?v=Dh6Hlbu53O0), which demonstrates running Labtainer on a MacBook Pro M3.
-
----
-
-## Additional Notes
-
-- **Performance**: Running x86 emulation on ARM can be demanding on system resources. You may need to experiment with CPU and memory allocations for optimal performance.
-- **Troubleshooting**: If you encounter issues, check the UTM and QEMU documentation, or consult online forums for specific configuration tips.
