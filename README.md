@@ -50,7 +50,7 @@ After downloading the QCOW2 image:
     - [UTM Download Link](https://github.com/utmapp/UTM/releases/latest/download/UTM.dmg)
     - Install UTM by opening the `.dmg` file and dragging it to your Applications folder.
 3. Open **UTM** and create a new virtual machine:
-    - Click the **+** button in UTM and select **Virtualize** to create a virtual machine.
+    - Click the **+** button in UTM and select **Emulate** to create a virtual machine.
     - Follow the wizard steps:
         - **System Settings**: Select the architecture and assign sufficient memory (e.g., 4GB or more).
         - Complete the wizard to create the VM. Do not worry about the disk settings during this step.
@@ -108,7 +108,7 @@ This command creates a file called `labtainer-utm-vm.qcow2`, which is compatible
 
 ### Step 5: Create a New Virtual Machine in UTM
 1. Open **UTM** and click the **+** button to create a new virtual machine.
-2. Select **Virtualize** to create a virtual machine with x86_64 emulation.
+2. Select **Emulate** to create a virtual machine with x86_64 emulation.
 
 ### Step 6: Configure the VM Settings
 
