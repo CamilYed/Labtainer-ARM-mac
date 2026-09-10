@@ -56,7 +56,7 @@ After downloading the QCOW2 image:
         - Complete the wizard to create the VM. Do not worry about the disk settings during this step.
     - After the VM is created, open its configuration settings:
         - Add a new drive and select the **QCOW2** file as the drive source.
-    - Configure networking as needed (e.g., shared or bridged).
+    - **Network**: set **Network Mode** to **Emulated VLAN** (see [Step 6](#step-6-configure-the-vm-settings) for why).
 4. **Save and start the VM**. Refer to the [YouTube tutorial](https://youtu.be/ckBRtSlhcww) if you need guidance.
 
 ---
@@ -129,6 +129,11 @@ For my setup on a MacBook Pro M3 with 36 GB of RAM, I used the following configu
 4. **Display**:
     - **Graphics Card**: Select **virtio-gpu-gl-pci (GPU Supported)** to enable better graphical performance.
     - **SPICE**: Ensure **SPICE** is selected if you need enhanced display options, such as clipboard sharing.
+
+5. **Network**:
+    - **Network Mode**: Set to **Emulated VLAN**.
+    - Why: **Shared Network** relies on macOS's own DHCP service for the VM's IPv4 address, and that service often stops answering after the Mac sleeps, changes Wi-Fi networks, or connects to a VPN. The guest then shows only IPv6 addresses on `enp0s1` and reports `Network is unreachable`, so Labtainers cannot pull its Docker images. **Emulated VLAN** has QEMU provide NAT and DHCP inside the VM itself, with no dependency on the host, so the VM keeps its internet access. This is also the mode UTM recommends for emulated (non-native) guests.
+    - If a VM you already created loses its network, shut it down, change this setting, and start it again.
 
 ### Step 7: Boot and Test the VM
 1. Start the VM in UTM.
